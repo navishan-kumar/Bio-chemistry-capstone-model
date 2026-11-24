@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MetaboScope | Reprogramming of the Citric Acid Cycle in Cancer Cells</title>
+<style>
+:root{--navy:#10243e;--navy2:#183b60;--blue:#3478d4;--cyan:#22b8c7;--teal:#13866f;--amber:#d88935;--red:#c65c58;--purple:#7862bd;--ink:#1c2c40;--muted:#68798d;--bg:#f2f5f9;--card:#fff;--line:#dfe7ef;--soft:#edf4fb}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.65 Inter,Segoe UI,Arial,sans-serif}
+header{background:radial-gradient(circle at 85% 15%,#285783 0,transparent 30%),linear-gradient(120deg,#0d2038,#183e64);color:white;padding:22px clamp(18px,5vw,70px) 46px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.logo{font-weight:900;letter-spacing:2px;font-size:18px}.logo span{color:#75e1df}.tag{font-size:11px;letter-spacing:1px;border:1px solid #66819d;border-radius:30px;padding:6px 11px;color:#dceafa}
+.hero{max-width:1000px;padding:44px 0 0}.eyebrow{color:#7fe1df;font-size:11px;letter-spacing:2px;font-weight:800;text-transform:uppercase}h1{font-size:clamp(30px,5vw,54px);line-height:1.08;max-width:900px;margin:12px 0 15px}.hero p{max-width:850px;color:#d5e2ef;font-size:16px}.hero-meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}.hero-meta span{background:#ffffff14;border:1px solid #ffffff2a;border-radius:8px;padding:7px 10px;font-size:12px;color:#e1edf8}
+main{max-width:1280px;margin:26px auto;padding:0 18px 60px}.layout{display:grid;grid-template-columns:235px minmax(0,1fr);gap:20px;align-items:start}
+aside{position:sticky;top:14px;background:white;border:1px solid var(--line);border-radius:16px;padding:14px;max-height:calc(100vh - 28px);overflow:auto}
+.aside-title{font-size:11px;color:var(--muted);font-weight:800;letter-spacing:1.2px;padding:5px 9px 10px;text-transform:uppercase}
+nav{display:grid;gap:5px}nav button{border:0;text-align:left;background:transparent;color:#43566e;padding:10px;border-radius:9px;cursor:pointer;font-weight:650;font-size:13px}nav button:hover{background:#f1f5fa}nav button.active{background:#e9f2ff;color:#1c5cae}
+.content{min-width:0}.panel{display:none}.panel.active{display:block}
+.heading{margin:3px 0 18px}.heading .kicker{font-size:11px;letter-spacing:1.5px;color:var(--blue);font-weight:850;text-transform:uppercase}.heading h2{margin:3px 0 5px;font-size:29px;color:var(--navy);line-height:1.2}.heading p{margin:0;color:var(--muted);max-width:850px}
+.grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:15px}.card{background:var(--card);border:1px solid var(--line);border-radius:15px;padding:19px;box-shadow:0 5px 20px #18365308;min-width:0}.s12{grid-column:span 12}.s8{grid-column:span 8}.s7{grid-column:span 7}.s6{grid-column:span 6}.s5{grid-column:span 5}.s4{grid-column:span 4}
+h3{color:var(--navy);margin:0 0 9px;font-size:17px}h4{color:var(--navy);margin:0 0 6px;font-size:14px}.muted{color:var(--muted)}.tiny{font-size:12px;color:var(--muted)}.lead{font-size:16px;color:#43566c}.chip{display:inline-block;border-radius:30px;padding:4px 9px;background:#eaf2ff;color:#245da7;font-size:10px;font-weight:850;letter-spacing:.7px;text-transform:uppercase;margin-bottom:9px}.chip.green{background:#e7f6f0;color:#167454}.chip.amber{background:#fff1df;color:#9b5c18}.chip.purple{background:#f0ebff;color:#6550a6}
+.stat{font-size:31px;font-weight:900;color:var(--blue);line-height:1.2;margin:5px 0}.rule{height:1px;background:var(--line);margin:15px 0}
+.note{padding:13px 15px;background:#edf7fb;border-left:4px solid var(--cyan);border-radius:9px;color:#36576c;font-size:13px}.warning{background:#fff7eb;border-left-color:var(--amber)}
+ol.steps{padding-left:22px;margin:10px 0}ol.steps li{padding:0 0 9px 4px}ul{padding-left:20px;margin:8px 0}li{margin:4px 0}
+.pathway{display:flex;align-items:stretch;gap:7px;flex-wrap:wrap;margin:16px 0}.node{flex:1;min-width:105px;border:1px solid #d7e3f0;background:#f6faff;border-radius:11px;padding:12px 9px;text-align:center;font-weight:800;color:#21415f;font-size:13px}.node small{display:block;font-size:10px;font-weight:500;color:var(--muted);margin-top:5px}.arrow{align-self:center;color:var(--blue);font-weight:900;font-size:19px}
+.step-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.step{border:1px solid var(--line);border-radius:11px;padding:13px;background:#fff}.step b{display:block;color:#244d78;margin-bottom:4px}.step p{font-size:12px;color:#65768a;margin:0}
+button.action{background:white;border:1px solid var(--line);border-radius:9px;padding:9px 13px;cursor:pointer;color:var(--ink);font-weight:750}button.action.primary{background:var(--blue);border-color:var(--blue);color:white}button.action:hover{border-color:var(--blue)}
+.selector{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.detail{padding:15px;border:1px solid var(--line);border-radius:12px;background:#f9fbfd;margin-top:12px;min-height:130px}
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:14px}.compare .card{border-top:4px solid var(--teal)}.compare .tumor{border-top-color:var(--amber)}
+.barline{margin:13px 0}.barlabel{display:flex;justify-content:space-between;font-size:12px;font-weight:750;margin-bottom:6px}.barbg{height:12px;border-radius:20px;background:#e9eef4;overflow:hidden}.barfill{height:100%;background:linear-gradient(90deg,#3478d4,#22b8c7);border-radius:20px}.barfill.orange{background:linear-gradient(90deg,#d88935,#efb45f)}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;padding:10px;border-bottom:1px solid var(--line);vertical-align:top}th{background:#f4f7fb;color:#50627a}
+.member-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.member{border:1px solid var(--line);border-radius:12px;padding:13px;background:#fbfdff}.member .num{font-size:11px;color:var(--blue);font-weight:900}.member input{width:100%;border:1px solid #d9e2ec;border-radius:7px;padding:8px;margin:7px 0;font:inherit;font-size:12px}.member p{font-size:11px;color:var(--muted);margin:4px 0 0}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:28px 0 0}
+@media(max-width:900px){.layout{grid-template-columns:1fr}aside{position:static;max-height:none}nav{display:flex;overflow-x:auto}nav button{white-space:nowrap}.member-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:650px){.s8,.s7,.s6,.s5,.s4{grid-column:span 12}.compare,.step-list{grid-template-columns:1fr}.member-grid{grid-template-columns:1fr 1fr}.pathway{flex-direction:column}.arrow{transform:rotate(90deg);text-align:center}}
+</style>
+</head>
+<body>
+<header>
+ <div class="top"><div class="logo">METABO<span>SCOPE</span></div><div class="tag">INTERACTIVE BIOCHEMISTRY CAPSTONE MODEL</div></div>
+ <div class="hero">
+  <div class="eyebrow">Cancer metabolism • TCA cycle • Warburg effect</div>
+  <h1>Reprogramming of the Citric Acid Cycle in Cancer Cells</h1>
+  <p>A guided, step-by-step educational model explaining how glucose is processed in normal cells and how cancer cells can reprogram metabolism toward aerobic glycolysis, lactate production and biosynthesis.</p>
+  <div class="hero-meta"><span>Biochemical pathway explorer</span><span>Normal vs. tumor comparison</span><span>Four-member project workspace</span></div>
+ </div>
+</header>
+<main>
+<div class="layout">
+<aside><div class="aside-title">Explore the model</div><nav>
+<button class="active" data-tab="home">01 · Project overview</button>
+<button data-tab="glycolysis">02 · Glycolysis: step by step</button>
+<button data-tab="normal">03 · Normal cell & TCA cycle</button>
+<button data-tab="cancer">04 · Tumor cell metabolism</button>
+<button data-tab="warburg">05 · Warburg effect</button>
+<button data-tab="suppression">06 · TCA suppression</button>
+<button data-tab="regulation">07 · Enzymes & oncogenes</button>
+<button data-tab="comparison">08 · Biochemical comparison</button>
+<button data-tab="therapy">09 · Therapeutic implications</button>
+<button data-tab="team">10 · Four-member team</button>
+<button data-tab="glossary">11 · Glossary & references</button>
+</nav></aside>
+<div class="content">
+
+<section id="home" class="panel active">
+ <div class="heading"><div class="kicker">01 / Introduction</div><h2>Project overview</h2><p>Start here to understand the biological question and how each section of the model connects to the supplied presentation.</p></div>
+ <div class="grid">
+  <div class="card s4"><span class="chip green">Normal tissue</span><div class="stat">TCA + OXPHOS</div><p class="muted">With oxygen available, normal cells can oxidize glucose-derived acetyl-CoA through the TCA cycle and oxidative phosphorylation.</p></div>
+  <div class="card s4"><span class="chip amber">Tumor tissue</span><div class="stat">Aerobic glycolysis</div><p class="muted">Cancer cells can convert a substantial portion of pyruvate into lactate even when oxygen is present.</p></div>
+  <div class="card s4"><span class="chip purple">Main concept</span><div class="stat">Reprogramming</div><p class="muted">Metabolic pathways are altered to support cell growth, biosynthesis and adaptation to the tumor environment.</p></div>
+  <div class="card s12"><h3>Learning objectives</h3><ol class="steps"><li>Trace glucose through glycolysis to pyruvate.</li><li>Explain how pyruvate enters mitochondria and supplies acetyl-CoA to the TCA cycle.</li><li>Describe how cancer cells can favor lactate production.</li><li>Explain the roles of HK-II, PKM2, LDH-A and PFK-1, as well as MYC, HIF-1α and RAS.</li><li>Connect metabolic reprogramming with proliferation, hypoxia, ROS and possible therapeutic research directions.</li></ol></div>
+  <div class="card s12"><h3>Big-picture pathway map</h3><div class="pathway"><div class="node">Glucose<small>Cell nutrient</small></div><div class="arrow">→</div><div class="node">Glycolysis<small>Cytoplasm</small></div><div class="arrow">→</div><div class="node">Pyruvate<small>Branch point</small></div><div class="arrow">→</div><div class="node">Two possible routes<small>Cell context matters</small></div></div>
+   <div class="compare"><div class="card"><span class="chip green">Normal-cell route</span><p>Pyruvate → acetyl-CoA → TCA cycle → electron transport / oxidative phosphorylation.</p></div><div class="card tumor"><span class="chip amber">Cancer-associated route</span><p>Pyruvate → lactate, alongside changes in mitochondrial metabolism and biosynthetic pathways.</p></div></div>
+  </div>
+  <div class="card s12"><div class="note"><b>How to read the model:</b> The central comparison and the approximate ATP values follow the supplied PPT. Additional pathway detail is included to make the biology easier to explain during a demonstration. Metabolic behavior varies among cancer types and conditions; not every cancer cell completely switches off its TCA cycle.</div></div>
+ </div>
+</section>
+
+<section id="glycolysis" class="panel">
+ <div class="heading"><div class="kicker">02 / First pathway stage</div><h2>Glycolysis: glucose to pyruvate</h2><p>Glycolysis occurs in the cytoplasm. It breaks one six-carbon glucose molecule into two three-carbon pyruvate molecules and captures some energy.</p></div>
+ <div class="card"><h3>Pathway sequence</h3><div class="pathway"><div class="node">Glucose<small>6 carbons</small></div><div class="arrow">→</div><div class="node">Glucose-6-P<small>Phosphorylated</small></div><div class="arrow">→</div><div class="node">Fructose-1,6-BP<small>Activated sugar</small></div><div class="arrow">→</div><div class="node">Two 3-carbon molecules<small>Split phase</small></div><div class="arrow">→</div><div class="node">2 Pyruvate<small>End product</small></div></div>
+ <p class="tiny">Select each stage to read what happens. The enzyme names below are standard biochemical explanation added to expand the presentation's overview of glycolysis.</p></div>
+ <div class="grid" style="margin-top:14px">
+  <div class="card s5"><h3>Explore each stage</h3><div class="selector" id="glyButtons"></div></div>
+  <div class="card s7"><span class="chip">Selected reaction</span><h3 id="glyTitle">1. Glucose phosphorylation</h3><div id="glyDetail" class="detail"></div></div>
+  <div class="card s6"><h3>Energy investment phase</h3><p>Early glycolysis uses ATP to phosphorylate and prepare glucose for splitting. This investment helps retain and activate the sugar inside the cell.</p><ul><li>Two ATP are used in the investment phase.</li><li>The six-carbon sugar is rearranged and split.</li></ul></div>
+  <div class="card s6"><h3>Energy payoff phase</h3><p>The two three-carbon intermediates are processed to form pyruvate. ATP and NADH are generated during these reactions.</p><ul><li>Four ATP are produced gross per glucose.</li><li>Net glycolytic gain is two ATP per glucose.</li><li>Two NADH are formed per glucose.</li></ul></div>
+  <div class="card s12"><div class="note"><b>Why glycolysis matters in this project:</b> Both normal and cancer cells use glycolysis. The important difference discussed in the PPT is what happens to pyruvate afterward: mitochondrial acetyl-CoA/TCA metabolism or conversion to lactate.</div></div>
+ </div>
+</section>
+
+<section id="normal" class="panel">
+ <div class="heading"><div class="kicker">03 / Normal-cell metabolism</div><h2>From pyruvate to the TCA cycle</h2><p>This section expands the normal-cell sequence shown in the PPT: glucose → pyruvate → acetyl-CoA → TCA cycle → oxidative phosphorylation.</p></div>
+ <div class="card"><h3>Stage A · Pyruvate oxidation</h3><div class="pathway"><div class="node">Pyruvate<small>From glycolysis</small></div><div class="arrow">→</div><div class="node">Mitochondrion<small>Entry into matrix</small></div><div class="arrow">→</div><div class="node">Acetyl-CoA<small>Carbon enters cycle</small></div></div>
+ <ol class="steps"><li>Pyruvate produced in the cytoplasm is transported into the mitochondrion.</li><li>The pyruvate dehydrogenase (PDH) complex converts pyruvate into acetyl-CoA.</li><li>Carbon dioxide is released and NADH is generated during this conversion.</li><li>Acetyl-CoA combines with oxaloacetate to begin the TCA cycle.</li></ol></div>
+ <div class="card" style="margin-top:14px"><h3>Stage B · TCA cycle reaction sequence</h3><p class="muted">The cycle takes place mainly in the mitochondrial matrix. Tap a reaction to view its role. This reaction-level detail is supplementary biochemistry to explain the TCA cycle named in the PPT.</p><div class="selector" id="tcaButtons"></div><div class="detail"><span class="chip">TCA reaction</span><h3 id="tcaTitle">1. Citrate formation</h3><div id="tcaDetail"></div></div></div>
+ <div class="grid" style="margin-top:14px">
+  <div class="card s6"><h3>Stage C · Electron transport chain</h3><p>Reduced carriers, mainly NADH and FADH₂, transfer high-energy electrons to protein complexes in the inner mitochondrial membrane. Electron transfer supports proton pumping across the membrane.</p><ol class="steps"><li>Electrons enter through respiratory-chain complexes.</li><li>Energy from electron transfer drives proton movement.</li><li>A proton gradient forms across the inner membrane.</li><li>Oxygen acts as the final electron acceptor and is reduced to water.</li></ol></div>
+  <div class="card s6"><h3>Stage D · ATP synthase</h3><p>Protons flow back through ATP synthase. This movement powers the formation of ATP from ADP and inorganic phosphate. This process is called oxidative phosphorylation.</p><div class="note">The PPT uses approximately 36 ATP per glucose as its simplified normal-cell comparison value. Actual ATP yield depends on cellular conditions and accounting assumptions.</div></div>
+ </div>
+</section>
+
+<section id="cancer" class="panel">
+ <div class="heading"><div class="kicker">04 / Tumor-cell metabolism</div><h2>How cancer cells redirect metabolism</h2><p>The PPT describes cancer cells as favoring aerobic glycolysis: glucose is converted to pyruvate and then lactate, even when oxygen is present.</p></div>
+ <div class="card"><h3>Step-by-step cancer-associated route</h3><div class="pathway"><div class="node">Glucose<small>Uptake into cell</small></div><div class="arrow">→</div><div class="node">Glycolysis<small>Increased pathway use</small></div><div class="arrow">→</div><div class="node">Pyruvate<small>Branch point</small></div><div class="arrow">→</div><div class="node">Lactate<small>LDH reaction</small></div></div>
+ <ol class="steps"><li><b>Glucose uptake:</b> glucose enters the cell and supplies glycolysis.</li><li><b>Glycolytic processing:</b> enzymes convert glucose through a series of reactions to pyruvate.</li><li><b>Pyruvate branch:</b> instead of all pyruvate being oxidized through PDH, a portion can be converted to lactate.</li><li><b>Lactate formation:</b> lactate dehydrogenase (LDH) converts pyruvate to lactate while regenerating NAD⁺, which helps glycolysis continue.</li><li><b>Biomass support:</b> glycolytic intermediates can be diverted into pathways that supply building blocks for nucleotides, lipids and amino acids.</li></ol></div>
+ <div class="grid" style="margin-top:14px">
+  <div class="card s6"><span class="chip amber">Energy perspective</span><h3>Lower ATP per glucose</h3><div class="stat">~2 ATP</div><p class="muted">The PPT gives approximately 2 ATP per glucose from the glycolytic route, compared with approximately 36 ATP in its normal-cell comparison.</p></div>
+  <div class="card s6"><span class="chip purple">Growth perspective</span><h3>Building-block supply</h3><p>Rapidly dividing cells need more than ATP. They also need carbon-containing precursors to make DNA/RNA, proteins and lipids. Glycolytic intermediates can feed biosynthetic routes.</p></div>
+  <div class="card s12"><div class="note warning"><b>Important clarification:</b> Aerobic glycolysis does not mean that every mitochondrion stops working. Many cancer cells retain active mitochondria and use the TCA cycle for energy or biosynthesis. The PPT's phrase “partial mitochondrial suppression” is more accurate than saying mitochondria are completely inactive.</div></div>
+ </div>
+</section>
+
+<section id="warburg" class="panel">
+ <div class="heading"><div class="kicker">05 / Central concept</div><h2>The Warburg effect explained</h2><p>The PPT attributes this observation to Otto Warburg: cancer cells can favor glycolysis and lactate production despite the presence of oxygen.</p></div>
+ <div class="grid">
+  <div class="card s7"><h3>What makes it unusual?</h3><p>In the simplified textbook expectation, oxygen availability supports mitochondrial oxidative phosphorylation. The Warburg effect describes a cancer-associated pattern in which glycolysis and lactate production remain high even when oxygen is available.</p><ol class="steps"><li>Glucose is taken up and metabolized through glycolysis.</li><li>Pyruvate is produced in the cytoplasm.</li><li>A substantial amount of pyruvate is converted into lactate.</li><li>Glycolytic intermediates can be used for biosynthesis.</li><li>Lactate is released and can influence the surrounding tumor microenvironment.</li></ol></div>
+  <div class="card s5"><h3>Explore the pathway balance</h3><p class="tiny">Conceptual illustration only — not measured data.</p><div class="barline"><div class="barlabel"><span>Normal-cell emphasis</span><span>TCA / OXPHOS</span></div><div class="barbg"><div class="barfill" style="width:88%"></div></div></div><div class="barline"><div class="barlabel"><span>Cancer-associated emphasis</span><span>Glycolysis / lactate</span></div><div class="barbg"><div class="barfill orange" style="width:88%"></div></div></div><p class="tiny">Bars show pathway emphasis as a teaching illustration, not a quantitative comparison.</p></div>
+  <div class="card s6"><h3>Why it can support proliferation</h3><ul><li>Provides intermediates for nucleotide synthesis.</li><li>Provides carbon for lipid synthesis.</li><li>Provides precursors for amino-acid synthesis.</li><li>Can support adaptation to variable oxygen availability.</li></ul></div>
+  <div class="card s6"><h3>Hypoxic tumor regions</h3><p>Some tumor regions have limited oxygen supply because blood-vessel delivery may not meet local demand. A glycolytic program can help cells maintain ATP production under low-oxygen conditions. The PPT notes this as one reason the pathway can support survival in hypoxic tumor cores.</p></div>
+ </div>
+</section>
+
+<section id="suppression" class="panel">
+ <div class="heading"><div class="kicker">06 / Mitochondrial changes</div><h2>TCA cycle suppression in cancer cells</h2><p>The presentation identifies reduced pyruvate entry, reduced PDH activity, mutations in TCA enzymes and a proposed relationship with reactive oxygen species (ROS).</p></div>
+ <div class="grid">
+  <div class="card s6"><span class="chip amber">Step 1</span><h3>Reduced pyruvate entry</h3><p>Less pyruvate may be directed into mitochondrial oxidation. This can reduce the amount of pyruvate available for conversion into acetyl-CoA through PDH.</p></div>
+  <div class="card s6"><span class="chip amber">Step 2</span><h3>Reduced PDH activity</h3><p>PDH links glycolysis to the TCA cycle by converting pyruvate into acetyl-CoA. Reduced PDH activity limits acetyl-CoA formation from glucose-derived pyruvate.</p></div>
+  <div class="card s6"><span class="chip purple">Step 3</span><h3>TCA enzyme alterations</h3><p>The PPT names IDH, SDH and FH. Changes or mutations affecting these enzymes can disrupt normal TCA-cycle function and alter metabolite levels.</p></div>
+  <div class="card s6"><span class="chip purple">Step 4</span><h3>ROS connection</h3><p>Reactive oxygen species are chemically reactive oxygen-containing molecules. Mitochondrial metabolism can contribute to ROS formation. The PPT proposes that suppression may reduce ROS that could otherwise damage DNA; the relationship is context-dependent.</p></div>
+  <div class="card s12"><h3>Key TCA-associated enzymes mentioned</h3><table><thead><tr><th>Enzyme abbreviation</th><th>Full name</th><th>Role in the cycle</th></tr></thead><tbody><tr><td>IDH</td><td>Isocitrate dehydrogenase</td><td>Converts isocitrate to α-ketoglutarate in an oxidative decarboxylation reaction.</td></tr><tr><td>SDH</td><td>Succinate dehydrogenase</td><td>Converts succinate to fumarate and is also part of respiratory-chain complex II.</td></tr><tr><td>FH</td><td>Fumarate hydratase</td><td>Converts fumarate to malate.</td></tr></tbody></table></div>
+  <div class="card s12"><div class="note warning"><b>Interpretation:</b> The PPT gives a simplified overview. TCA-cycle behavior is not identical in every tumor; some cancer cells maintain substantial mitochondrial metabolism. Avoid describing TCA suppression as universal or complete.</div></div>
+ </div>
+</section>
+
+<section id="regulation" class="panel">
+ <div class="heading"><div class="kicker">07 / Molecular regulation</div><h2>Key enzymes and oncogenes</h2><p>Explore the four enzymes and three regulatory factors specifically named in the presentation.</p></div>
+ <div class="grid">
+  <div class="card s6"><h3>Enzymes highlighted in the PPT</h3><div class="selector" id="enzymeButtons"></div><div class="detail"><h3 id="enzymeTitle">Hexokinase II (HK-II)</h3><div id="enzymeDetail"></div></div></div>
+  <div class="card s6"><h3>Oncogenes and regulators</h3><div class="selector" id="geneButtons"></div><div class="detail"><h3 id="geneTitle">MYC</h3><div id="geneDetail"></div></div></div>
+  <div class="card s12"><h3>How regulation connects to the pathway</h3><div class="pathway"><div class="node">MYC / RAS / HIF-1α<small>Regulatory signals</small></div><div class="arrow">→</div><div class="node">Glycolytic enzyme expression / activity<small>HK-II, PFK-1, PKM2, LDH-A</small></div><div class="arrow">→</div><div class="node">Increased glycolytic program<small>Glucose use and lactate production</small></div><div class="arrow">→</div><div class="node">Growth adaptation<small>Context-dependent</small></div></div><p class="tiny">This is a simplified teaching map of the relationships summarized in the supplied PPT, not a complete signaling network.</p></div>
+ </div>
+</section>
+
+<section id="comparison" class="panel">
+ <div class="heading"><div class="kicker">08 / Side-by-side analysis</div><h2>Biochemical differences</h2><p>A consolidated comparison of the central points from the presentation.</p></div>
+ <div class="card"><table><thead><tr><th>Feature</th><th>Normal-cell pattern in PPT</th><th>Cancer-associated pattern in PPT</th></tr></thead><tbody>
+ <tr><td>Main pathway emphasis</td><td>TCA cycle + oxidative phosphorylation</td><td>Aerobic glycolysis</td></tr>
+ <tr><td>Pyruvate fate</td><td>Pyruvate → acetyl-CoA</td><td>Pyruvate → lactate</td></tr>
+ <tr><td>Mitochondrial activity</td><td>Fully active mitochondria (simplified PPT description)</td><td>Partial mitochondrial suppression</td></tr>
+ <tr><td>ATP per glucose</td><td>~36 ATP</td><td>~2 ATP through glycolysis</td></tr>
+ <tr><td>Lactate</td><td>Low under aerobic conditions</td><td>Increased / constant production described</td></tr>
+ <tr><td>Cellular needs</td><td>Energy production</td><td>Energy plus biosynthetic intermediates for proliferation</td></tr>
+ <tr><td>Oxygen relationship</td><td>Oxygen supports oxidative phosphorylation</td><td>Glycolysis and lactate production can remain high despite oxygen</td></tr>
+ </tbody></table></div>
+ <div class="grid" style="margin-top:14px">
+  <div class="card s6"><h3>ATP yield bars</h3><div class="barline"><div class="barlabel"><span>Normal cell</span><b>~36</b></div><div class="barbg"><div class="barfill" style="width:100%"></div></div></div><div class="barline"><div class="barlabel"><span>Tumor glycolysis</span><b>~2</b></div><div class="barbg"><div class="barfill orange" style="width:5.56%"></div></div></div><p class="tiny">Approximate figures exactly as presented in the PPT; actual yields vary.</p></div>
+  <div class="card s6"><h3>What the comparison tells us</h3><p>The project is not simply about which pathway makes more ATP. It examines why a growing tumor cell may favor a pathway that yields less ATP per glucose but can supply metabolic intermediates and adapt to low-oxygen conditions.</p></div>
+ </div>
+</section>
+
+<section id="therapy" class="panel">
+ <div class="heading"><div class="kicker">09 / Research significance</div><h2>Therapeutic implications</h2><p>The presentation lists possible research directions arising from metabolic differences between normal and cancer cells.</p></div>
+ <div class="grid">
+  <div class="card s6"><span class="chip">Direction 1</span><h3>Target glycolytic enzymes</h3><p>Research may investigate whether altered glycolytic enzyme activity can be used to slow cancer-cell growth. The PPT specifically highlights glycolytic enzymes as possible targets.</p></div>
+  <div class="card s6"><span class="chip">Direction 2</span><h3>Investigate lactate production</h3><p>Because lactate can influence the tumor microenvironment, studying lactate production and transport may provide information about tumor biology.</p></div>
+  <div class="card s6"><span class="chip">Direction 3</span><h3>Study mitochondrial function</h3><p>The PPT identifies restoration of mitochondrial oxidative phosphorylation as a possible therapeutic concept. Whether this is useful depends on the specific cancer context.</p></div>
+  <div class="card s6"><span class="chip">Direction 4</span><h3>Metabolic imaging and diagnosis</h3><p>Differences in glucose use and other metabolic features may be explored in imaging and diagnostic research.</p></div>
+  <div class="card s12"><div class="note warning"><b>Educational note:</b> These are research implications from the presentation, not treatment recommendations. Cancer treatment decisions require qualified medical professionals and evidence from clinical studies.</div><h3 style="margin-top:17px">Conclusion</h3><p>Normal cells generally use mitochondrial oxidation efficiently when oxygen is available. Cancer cells can reprogram metabolism toward aerobic glycolysis, increase lactate production and use pathway intermediates to support proliferation. Enzymes, oncogenes, oxygen availability and mitochondrial changes all contribute to this complex metabolic behavior.</p></div>
+ </div>
+</section>
+
+<section id="team" class="panel">
+ <div class="heading"><div class="kicker">10 / Project collaboration</div><h2>Four-member team workspace</h2><p>The uploaded PPT names Karthikeyan and Kristen. Since you said the team has four members, the other two names are left editable rather than guessed.</p></div>
+ <div class="card"><h3>Team members</h3><div class="member-grid">
+  <div class="member"><div class="num">MEMBER 01</div><input value="Navishan Kumar" aria-label="Member 1 name"><p>Project introduction, overview and normal-cell metabolism.</p></div>
+  <div class="member"><div class="num">MEMBER 02</div><input value="Jagadish Varma" aria-label="Member 2 name"><p>Tumor-cell metabolism, Warburg effect and biochemical differences.</p></div>
+  <div class="member"><div class="num">MEMBER 03</div><input placeholder="Ragav" aria-label="Member 3 name"><p>TCA-cycle suppression, ROS and enzyme changes.</p></div>
+  <div class="member"><div class="num">MEMBER 04</div><input placeholder="Mano Bharathi" aria-label="Member 4 name"><p>Oncogenes, therapeutic implications, summary and demonstration.</p></div>
+ </div><div class="note" style="margin-top:15px">Suggested speaking split: each member presents their assigned section and demonstrates the matching interactive module. You can edit the four names directly on this page; the names are not uploaded or stored anywhere.</div></div>
+ <div class="grid" style="margin-top:14px">
+  <div class="card s6"><h3>Suggested presentation flow</h3><ol class="steps"><li>Member 1: introduction, objectives and normal-cell pathway.</li><li>Member 2: tumor metabolism and Warburg effect.</li><li>Member 3: TCA suppression, ROS and enzymes.</li><li>Member 4: oncogenes, therapeutic implications and conclusion.</li></ol></div>
+  <div class="card s6"><h3>Live demonstration idea</h3><ol class="steps"><li>Open the pathway explorer.</li><li>Show the normal route from pyruvate into acetyl-CoA and TCA.</li><li>Switch to tumor-associated pyruvate-to-lactate route.</li><li>Compare ATP values and explain why biosynthetic intermediates matter.</li></ol></div>
+ </div>
+</section>
+
+<section id="glossary" class="panel">
+ <div class="heading"><div class="kicker">11 / Study support</div><h2>Glossary & source notes</h2><p>Short definitions for technical terms used throughout the model.</p></div>
+ <div class="card"><table><thead><tr><th>Term</th><th>Meaning</th></tr></thead><tbody>
+ <tr><td>ATP</td><td>Adenosine triphosphate; a molecule cells use to transfer usable energy.</td></tr>
+ <tr><td>TCA cycle</td><td>Tricarboxylic acid cycle, also called the citric acid or Krebs cycle.</td></tr>
+ <tr><td>Oxidative phosphorylation</td><td>ATP production driven by the proton gradient generated by electron transport.</td></tr>
+ <tr><td>Aerobic glycolysis</td><td>High glycolytic activity with lactate production even when oxygen is available; commonly associated with the Warburg effect.</td></tr>
+ <tr><td>PDH</td><td>Pyruvate dehydrogenase complex; converts pyruvate to acetyl-CoA.</td></tr>
+ <tr><td>ROS</td><td>Reactive oxygen species; reactive oxygen-containing molecules that can participate in cell signaling or cause molecular damage.</td></tr>
+ <tr><td>Oncogene</td><td>A gene that can promote cell growth or survival when abnormally activated.</td></tr>
+ <tr><td>Hypoxia</td><td>A condition in which oxygen availability is lower than the tissue requires.</td></tr>
+ <tr><td>Biosynthetic precursor</td><td>A molecule used as a starting material to build cellular components.</td></tr>
+ </tbody></table></div>
+ <div class="card" style="margin-top:14px"><h3>Source and scope</h3><p><b>Primary source:</b> “Reprogramming of the Citric Acid Cycle in Cancer Cells — Biochemical Comparison of Aerobic Glycolysis and TCA Suppression in Tumor vs. Normal Tissues,” supplied capstone PowerPoint by Karthikeyan and Kristen.</p><p>The project-specific statements, topic order and approximate ATP comparison are based on the supplied PPT. The detailed glycolysis reactions, TCA intermediates and electron-transport explanation are supplementary standard biochemistry explanations added to make the software model suitable for step-by-step learning and presentation.</p><p class="tiny">The uploaded slide deck includes a title, overview, normal and tumor metabolism, biochemical differences, metabolic reprogramming, enzyme changes, Warburg effect, TCA suppression, oncogenes, therapeutic implications and summary. It does not identify the other two team members; editable placeholders are provided.</p></div>
+</section>
+<footer>METABOSCOPE · Educational interactive software model · Built from the supplied capstone presentation</footer>
+</div></div>
+</main>
+<script>
+const navButtons=[...document.querySelectorAll('nav button')],panels=[...document.querySelectorAll('.panel')];
+navButtons.forEach(b=>b.addEventListener('click',()=>{navButtons.forEach(x=>x.classList.toggle('active',x===b));panels.forEach(p=>p.classList.toggle('active',p.id===b.dataset.tab));window.scrollTo({top:0,behavior:'smooth'});}));
+
+const glycolysis=[
+['Glucose phosphorylation','Hexokinase (including HK-II in many tissues) transfers a phosphate group from ATP to glucose, forming glucose-6-phosphate. This helps trap glucose inside the cell and begins its processing.'],
+['Sugar rearrangement','Phosphoglucose isomerase converts glucose-6-phosphate into fructose-6-phosphate. The carbon skeleton is rearranged.'],
+['Second phosphorylation','Phosphofructokinase-1 (PFK-1) uses another ATP to form fructose-1,6-bisphosphate. This is a major regulatory step in glycolysis.'],
+['Six-carbon splitting','Aldolase splits fructose-1,6-bisphosphate into two three-carbon phosphate molecules: glyceraldehyde-3-phosphate and dihydroxyacetone phosphate.'],
+['Three-carbon balancing','Triose phosphate isomerase converts dihydroxyacetone phosphate into glyceraldehyde-3-phosphate. Two molecules now continue through the payoff phase.'],
+['Oxidation and NADH formation','Glyceraldehyde-3-phosphate dehydrogenase oxidizes each three-carbon molecule and reduces NAD⁺ to NADH while adding inorganic phosphate.'],
+['First ATP formation','Phosphoglycerate kinase transfers a phosphate to ADP, producing ATP by substrate-level phosphorylation. This occurs twice per glucose.'],
+['Molecular rearrangement','Phosphoglycerate mutase shifts the phosphate group to form 2-phosphoglycerate.'],
+['Water removal','Enolase removes water from 2-phosphoglycerate to form phosphoenolpyruvate (PEP), a high-energy intermediate.'],
+['Pyruvate formation','Pyruvate kinase transfers the phosphate from PEP to ADP, producing ATP and pyruvate. This final glycolytic step occurs twice per glucose.']
+];
+function makeSelector(id,data,titleId,detailId,formatter){const host=document.getElementById(id);data.forEach((d,i)=>{const b=document.createElement('button');b.className='action'+(i===0?' primary':'');b.textContent=(i+1);b.title=d[0];b.addEventListener('click',()=>{[...host.children].forEach(x=>x.classList.toggle('primary',x===b));document.getElementById(titleId).textContent=(i+1)+'. '+d[0];document.getElementById(detailId).innerHTML=formatter?formatter(d[1]):'<p>'+d[1]+'</p>';});host.appendChild(b);});document.getElementById(detailId).innerHTML='<p>'+data[0][1]+'</p>';}
+makeSelector('glyButtons',glycolysis,'glyTitle','glyDetail');
+const tca=[
+['Citrate formation','Acetyl-CoA (2 carbons) combines with oxaloacetate (4 carbons) to form citrate (6 carbons). Enzyme: citrate synthase.'],
+['Isocitrate formation','Aconitase rearranges citrate into isocitrate through a short dehydration and rehydration sequence.'],
+['First oxidative decarboxylation','Isocitrate dehydrogenase converts isocitrate into α-ketoglutarate (5 carbons), releasing CO₂ and producing NADH.'],
+['Second oxidative decarboxylation','The α-ketoglutarate dehydrogenase complex converts α-ketoglutarate into succinyl-CoA (4 carbons), releasing CO₂ and producing NADH.'],
+['Substrate-level phosphorylation','Succinyl-CoA is converted to succinate. The reaction produces GTP or ATP depending on the tissue and enzyme form.'],
+['Succinate oxidation','Succinate dehydrogenase converts succinate into fumarate and transfers electrons to FAD, forming FADH₂. This enzyme is also respiratory-chain complex II.'],
+['Fumarate hydration','Fumarase adds water to fumarate to form malate.'],
+['Oxaloacetate regeneration','Malate dehydrogenase oxidizes malate to oxaloacetate and produces NADH. Oxaloacetate can combine with another acetyl-CoA and the cycle repeats.']
+];
+makeSelector('tcaButtons',tca,'tcaTitle','tcaDetail');
+const enzymes=[
+['Hexokinase II (HK-II)','Catalyzes the first committed glucose-phosphorylation reaction in the cell. The PPT highlights increased HK-II activity in cancer metabolism. This can support glucose entry into glycolysis.'],
+['Pyruvate kinase M2 (PKM2)','Catalyzes the final ATP-generating step of glycolysis, converting phosphoenolpyruvate to pyruvate. The PPT identifies increased PKM2 in cancer metabolism. PKM2 regulation is complex and can influence how carbon flows through glycolysis.'],
+['Lactate dehydrogenase A (LDH-A)','Catalyzes the reversible conversion of pyruvate to lactate while converting NADH to NAD⁺. Regeneration of NAD⁺ helps sustain glycolytic reactions. The PPT highlights increased LDH-A.'],
+['Phosphofructokinase-1 (PFK-1)','Catalyzes the conversion of fructose-6-phosphate to fructose-1,6-bisphosphate using ATP. It is an important regulatory point controlling glycolytic flux.']
+];
+makeSelector('enzymeButtons',enzymes,'enzymeTitle','enzymeDetail');
+const genes=[
+['MYC','The PPT states that MYC increases glycolytic enzyme expression. MYC is a transcriptional regulator that can promote expression of genes involved in growth and metabolism.'],
+['HIF-1α','HIF-1α is activated when oxygen is low. The PPT links it with promotion of glycolysis over TCA metabolism, helping cells adapt to hypoxic conditions.'],
+['RAS','The PPT states that RAS enhances glucose uptake and glycolysis. RAS signaling can alter growth-related pathways and cellular metabolic behavior.']
+];
+makeSelector('geneButtons',genes,'geneTitle','geneDetail');
+</script>
+</body></html>
